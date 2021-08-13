@@ -9,6 +9,16 @@
     <script src="js/eventLayout.js"></script>
   </head>
   <body>
+    <h1 style="margin-left:5px">大数据集群批处理周别全时段运行图</h1>
+    <div style="width:4500px">
+      <div style="display: inline-block;width:800px;font-size: 17px" align="center">周一</div>
+      <div style="display: inline-block;width:500px;font-size: 17px" align="center">周二</div>
+      <div style="display: inline-block;width:700px;font-size: 17px" align="center">周三</div>
+      <div style="display: inline-block;width:550px;font-size: 17px" align="center">周四</div>
+      <div style="display: inline-block;width:700px;font-size: 17px" align="center">周五</div>
+      <div style="display: inline-block;width:600px;font-size: 17px" align="center">周六</div>
+      <div style="display: inline-block;width:550px;font-size: 17px" align="center">周日</div>
+    </div>
     <div id="container"></div>
     <script type="text/jsx">
       // The JSX file can't be loaded by JSXTransformer locally
@@ -16,7 +26,7 @@
       var Timeline = React.createClass({
         render: function() {
           var scales = [];
-          for(var hour=9; hour<21; hour++) {
+          for(var hour=0; hour<24; hour++) {
             scales.push(
               <TimelineScale hour={hour} minute={0} />
             );
@@ -25,7 +35,7 @@
             );
           }
           scales.push(
-            <TimelineScale hour={21} minute={0} />
+            <TimelineScale hour={24} minute={00} />
           );
           return (
             <div className="timeline">
@@ -38,8 +48,9 @@
       var TimelineScale = React.createClass({
         render: function() {
           var className= this.props.minute === 0 ? "hourly" : "half";
-          var hour = this.props.hour > 12 ?
-                      this.props.hour - 12 : this.props.hour;
+          // var hour = this.props.hour > 12 ?
+          //             this.props.hour - 12 : this.props.hour;
+          var hour = this.props.hour;
           var APM = this.props.hour > 12 ? "PM" : "AM";
           var minute = ("0" + this.props.minute).slice(-2);
           return (
@@ -56,7 +67,7 @@
           var events = this.props.events.map(function(event) {
             return (
               <Event top={event.top} left={event.left}
-                height={event.height} width={event.width} id={event.id} />
+                height={event.height} width={event.width} id={event.id} item={event.item} desc={event.desc} />
             );
           });
           return (
@@ -76,14 +87,16 @@
             left: this.props.left + 'px',
             height: this.props.height + 'px',
             width: this.props.width + 'px'
-          };
+          }; 
+          var item = this.props.item + ""
+          var desc = this.props.desc +  ""
           return (
             <div className="event" style={style} >
               <div className="vbar"></div>
               <div className="contentWrapper">
                 <div className="content">
-                  <h1>Sample Item</h1>
-                  <p>Sample Location</p>
+                  <h2>{item}</h2>
+                  <h1>{desc}</h1>
                 </div>
               </div>
             </div>
@@ -91,13 +104,28 @@
         }
       });
 
+
+
       var Calendar = React.createClass({
         render: function() {
-          var eventLayouts = EventLayout.arrange(this.props.events);
+          var eventLayouts1 = EventLayout.arrange(this.props.events1);
+          var eventLayouts2 = EventLayout.arrange(this.props.events2);
+          var eventLayouts3 = EventLayout.arrange(this.props.events3);
+          var eventLayouts4 = EventLayout.arrange(this.props.events4);
+          var eventLayouts5 = EventLayout.arrange(this.props.events5);
+          var eventLayouts6 = EventLayout.arrange(this.props.events6);
+          var eventLayouts7 = EventLayout.arrange(this.props.events7);
+
           return (
             <div>
               <Timeline />
-              <EventPanel events = {eventLayouts}/>
+              <EventPanel events = {eventLayouts1}/>
+              <EventPanel events = {eventLayouts2}/>
+              <EventPanel events = {eventLayouts3}/>
+              <EventPanel events = {eventLayouts4}/>
+              <EventPanel events = {eventLayouts5}/>
+              <EventPanel events = {eventLayouts6}/>
+              <EventPanel events = {eventLayouts7}/>
             </div>
           );
         }
@@ -105,20 +133,68 @@
 
       function layOutDay(events) {
         React.render(
-          <Calendar events={events}/>,
+          <Calendar events1={events1} events2={events2} events3={events3} events4={events4} events5={events5} events6={events6} events7={events7}/>,
           document.getElementById('container')
         );
       }
 
-      var events = [
-        {start: 30, end: 150},
+      var events1 = [
+        {start: 30, end: 150, item:"周一", desc:"impala"},
         {start: 540, end: 600},
         {start: 550, end: 620},
         {start: 560, end: 650},
-        {start: 630, end: 690},
-        ];
+        {start: 630, end: 690}
+      ];
 
-      layOutDay(events);
+      var events2 = [
+        {start: 40, end: 150},
+        {start: 540, end: 600, item:"周二", desc:"impala"},
+        {start: 550, end: 620},
+        {start: 560, end: 650},
+        {start: 630, end: 690}
+      ];
+
+      var events3 = [
+        {start: 140, end: 250},
+        {start: 540, end: 600},
+        {start: 550, end: 620},
+        {start: 560, end: 650, item:"周3", desc:"impala"},
+        {start: 630, end: 690}
+      ];
+
+      var events4 = [
+        {start: 40, end: 250},
+        {start: 540, end: 600},
+        {start: 550, end: 620},
+        {start: 560, end: 650},
+        {start: 630, end: 690, item:"周si", desc:"impala"}
+      ];
+
+      var events5 = [
+        {start: 140, end: 150},
+        {start: 540, end: 600},
+        {start: 550, end: 620},
+        {start: 560, end: 650, item:"周五", desc:"impala"},
+        {start: 630, end: 690}
+      ];
+
+      var events6 = [
+        {start: 40, end: 350},
+        {start: 540, end: 600},
+        {start: 550, end: 620},
+        {start: 560, end: 650},
+        {start: 630, end: 690, item:"周六", desc:"impala"}
+      ];
+
+      var events7 = [
+        {start: 40, end: 450, item:"周日", desc:"hive"},
+        {start: 540, end: 600},
+        {start: 550, end: 620},
+        {start: 560, end: 650},
+        {start: 630, end: 690}
+      ];
+
+      layOutDay(events1);
     </script>
   </body>
 </html>

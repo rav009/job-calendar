@@ -79,7 +79,9 @@ var EventLayout = (function() {
             top: e.start,
             height: e.end - e.start,
             left: col * width,
-            width: width
+            width: width,
+            item: e.item,
+            desc: e.desc
           };
           for (var c = col+1; c < layout.length; c++) {
             if (!layout[c].some(e1 => detectOverlay(e, e1))) {
