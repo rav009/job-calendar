@@ -10,7 +10,7 @@
 * UI优化
 
 ## 使用
-在index中，编辑event1、event2、event3...event7等变量。
+在index中，编辑event1、event2、event3...event7等变量。  
 event1对应周一的日程表，event2对应周二的日程表，以此类推。
 
 ## 预览图
